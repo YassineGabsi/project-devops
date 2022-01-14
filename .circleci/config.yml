@@ -63,18 +63,24 @@ workflows:
                 - dev
                 - main
       - test-e2e:
+          requires:
+            - test
           filters:
             branches:
               only:
                 - dev
                 - main
       - build-docker:
+          requires:
+            - test-e2e
           filters:
             branches:
               only:
                 - dev
                 - main
       - publish-latest:
+          requires:
+            - build-docker
           filters:
             branches:
               only:
