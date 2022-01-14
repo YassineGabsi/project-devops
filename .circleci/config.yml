@@ -31,7 +31,6 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - node/install-packages
       - run:
           name: Build Docker image
           command: docker build -t $IMAGE_NAME:latest .
