@@ -1,11 +1,6 @@
 version: 2.1
 orbs:
   node: circleci/node@3.0.0
-general:
-  branches:
-    only:
-      - dev
-      - main
 jobs:
   build-and-test:
     executor:
@@ -15,6 +10,7 @@ jobs:
       - node/install-packages
       - run:
           command: npm run test
+
   test-e2e:
     executor:
       name: node/default
@@ -26,5 +22,15 @@ jobs:
 workflows:
   build-and-test:
     jobs:
-      - build-and-test
-      - test-e2e
+      - build-and-test:
+          filters:
+            branches:
+              only:
+                - dev
+                - main
+      - test-e2e:
+          filters:
+            branches:
+              only:
+                - dev
+                - main
