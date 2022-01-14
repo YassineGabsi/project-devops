@@ -1,8 +1,14 @@
 version: 2.1
+executors:
+  docker-publisher:
+    environment:
+      IMAGE_NAME: yassinegabsi/projet-devops
+    docker:
+      - image: circleci/buildpack-deps:stretch
 orbs:
   node: circleci/node@3.0.0
 jobs:
-  build-and-test:
+  test:
     executor:
       name: node/default
     steps:
@@ -19,16 +25,57 @@ jobs:
       - node/install-packages
       - run:
           command: npm run test:e2e
+
+  build-docker:
+    executor: docker-publisher
+    steps:
+      - checkout
+      - setup_remote_docker
+      - node/install-packages
+      - run:
+          name: Build Docker image
+          command: docker build -t $IMAGE_NAME:latest .
+      - run:
+          name: Archive Docker image
+          command: docker save -o image.tar $IMAGE_NAME
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./image.tar
+  publish-latest:
+    executor: docker-publisher
+    steps:
+      - setup_remote_docker
+      - run:
+          name: Load archived Docker image
+          command: docker load -i /tmp/workspace/image.ta
+      - run:
+          name: Publish Docker Image to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $IMAGE_NAME:latest
 workflows:
   build-and-test:
     jobs:
-      - build-and-test:
+      - test:
           filters:
             branches:
               only:
                 - dev
                 - main
       - test-e2e:
+          filters:
+            branches:
+              only:
+                - dev
+                - main
+      - build-docker:
+          filters:
+            branches:
+              only:
+                - dev
+                - main
+      - publish-latest:
           filters:
             branches:
               only:
