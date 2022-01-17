@@ -64,7 +64,7 @@ jobs:
       - checkout
       - run:
           name: Install AWS cli
-          command: export TZ=Europe/Minsk && sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > sudo  /etc/timezone && sudo apt-get update && sudo apt-get install -y awscli && sudo apt-get install python3.8
+          command: export TZ=Europe/Minsk && sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > sudo  /etc/timezone && sudo apt-get update && sudo apt-get install -y awscli && sudo apt-get install python3-pip
       - run:
           name: Set the tag for the image
           command:  echo 'export TAG=latest' >> $BASH_ENV
