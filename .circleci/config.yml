@@ -57,7 +57,7 @@ jobs:
             docker push $IMAGE_NAME:latest
   deploy:
     docker:
-        - image: circleci/golang:1.10
+        - image: circleci/golang:latest
     steps:
       - attach_workspace:
           at: /tmp/workspace
@@ -66,7 +66,7 @@ jobs:
           name: Install AWS cli
           command: export TZ=Europe/Minsk && sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > sudo  /etc/timezone && sudo apt-get update && sudo apt-get install -y awscli
       - run:
-          name: Set the tag for the image, we will concatenate the app verson and circle build number with a `-` char in between
+          name: Set the tag for the image
           command:  echo 'export TAG=latest' >> $BASH_ENV
       - run:
           name: Install and confgure kubectl
