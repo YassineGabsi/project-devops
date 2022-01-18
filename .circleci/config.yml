@@ -95,6 +95,7 @@ workflows:
               only:
                 - dev
                 - main
+                - deploy
       - test-e2e:
           requires:
             - test
@@ -103,6 +104,7 @@ workflows:
               only:
                 - dev
                 - main
+                - deploy
       - build-docker:
           requires:
             - test-e2e
@@ -111,6 +113,7 @@ workflows:
               only:
                 - dev
                 - main
+                - deploy
       - publish-latest:
           requires:
             - build-docker
@@ -119,8 +122,13 @@ workflows:
               only:
                 - dev
                 - main
+                - deploy
       - deploy:
+          requires:
+            - publish-latest
           filters:
             branches:
               only:
                 - deploy
+                - dev 
+                - main 
