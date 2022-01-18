@@ -1,0 +1,13 @@
+image:
+  tag: latest
+  repository: yassinegabsi/projet-devops
+  imagePullPolicy: Always
+
+labels:
+  env: "staging"
+  cluster: "adorable-monster-1642459449"
+
+service:
+  port: 3000
+  targetPort: 3000
+  type: LoadBalancer
