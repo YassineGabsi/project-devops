@@ -13,8 +13,8 @@ spec:
     metadata:
       labels:
         app: helloapp
-        env: {{ .Values.labels.env }}
-        cluster: {{ .Values.labels.cluster }}
+        env: "staging"
+        cluster: "adorable-monster-1642459449"
     spec:
       containers:
       - name: helloapp
