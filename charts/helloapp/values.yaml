@@ -1,6 +1,6 @@
 image:
   tag: latest
-  repository: assinegabsi/projet-devops
+  repository: yassinegabsi/projet-devops
   imagePullPolicy: Always
 
 labels:
