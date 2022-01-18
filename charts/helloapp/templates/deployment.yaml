@@ -17,10 +17,3 @@ spec:
       - name: helloapp
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
-        readinessProbe:
-          httpGet:
-            path: /hello
-            port: 3000
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            successThreshold: 1
