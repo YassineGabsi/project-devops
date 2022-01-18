@@ -8,5 +8,3 @@ if [ $? -ne "0" ]; then
 else 
    helm upgrade --timeout 180 helloapp --set image.tag=$TAG charts/helloapp
 fi
-echo "stop tiller"
-helm tiller stop 
